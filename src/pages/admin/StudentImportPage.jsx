@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Loader2, UploadCloud, CheckCircle, AlertTriangle, Plus, Search } from 'lucide-react'
+import { Loader2, UploadCloud, CheckCircle, AlertTriangle, Plus, Search, Download } from 'lucide-react'
 import {
     Dialog,
     DialogContent,
@@ -114,6 +114,23 @@ export default function StudentImportPage() {
         }
     }
 
+    const handleDownloadSample = () => {
+        const headers = "student_id,student_number,national_id,first_name,last_name,current_room\n"
+        const sampleRow1 = "65001,1,1100000000001,John,Doe,M.1/1\n"
+        const sampleRow2 = "65002,2,1100000000002,Jane,Smith,M.1/1\n"
+        const csvContent = headers + sampleRow1 + sampleRow2
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+
+        link.href = url
+        link.setAttribute('download', 'student_import_sample.csv')
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
+
     return (
         <div className="space-y-6 max-w-4xl mx-auto">
             <div className="flex items-center justify-between">
@@ -140,11 +157,16 @@ export default function StudentImportPage() {
             </div>
 
             <Card>
-                <CardHeader>
-                    <CardTitle>Upload CSV File</CardTitle>
-                    <CardDescription>
-                        File must contain headers: <code>student_id, student_number, national_id, first_name, last_name, current_room</code>
-                    </CardDescription>
+                <CardHeader className="flex flex-row items-start justify-between">
+                    <div className="space-y-1">
+                        <CardTitle>Upload CSV File</CardTitle>
+                        <CardDescription>
+                            File must contain headers: <code>student_id, student_number, national_id, first_name, last_name, current_room</code>
+                        </CardDescription>
+                    </div>
+                    <Button variant="outline" size="sm" onClick={handleDownloadSample} className="shrink-0 flex items-center gap-2">
+                        <Download className="h-4 w-4" /> Download Sample CSV
+                    </Button>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="grid w-full max-w-sm items-center gap-1.5">
