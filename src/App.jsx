@@ -45,23 +45,38 @@ function Dashboard() {
       <h1 className="text-2xl font-bold mb-4">Welcome, {user?.email}</h1>
       <p className="mb-4">Role: <span className="font-semibold uppercase">{user?.role || 'Guest'}</span></p>
 
-      <div className="flex gap-4">
-        {user?.role === 'admin' && (
-          <a href="/admin" className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
-            Go to Admin Panel
-          </a>
+      <div className="flex flex-col gap-4">
+        {user?.role === 'guest' && (
+          <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md mb-4 max-w-lg">
+            <h3 className="font-semibold text-yellow-800 mb-2">Account Not Activated</h3>
+            <p className="text-yellow-700 mb-4 text-sm">
+              Your account currently has guest access.
+              <br />• <strong>If you are a student:</strong> Please click the button below to link your student ID.
+              <br />• <strong>If you are a teacher:</strong> Please wait for an administrator to verify and update your role.
+            </p>
+            <a href="/activate" className="inline-block bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition">
+              Student Activation
+            </a>
+          </div>
         )}
-        {(user?.role === 'teacher' || user?.role === 'admin') && (
-          <a href="/teacher" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            Go to Teacher Space
-          </a>
-        )}
-        {user?.role === 'student' && (
-          <a href="/student" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-            Go to My Grades
-          </a>
-        )}
-        <button onClick={signOut} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Sign Out</button>
+        <div className="flex gap-4">
+          {user?.role === 'admin' && (
+            <a href="/admin" className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
+              Go to Admin Panel
+            </a>
+          )}
+          {(user?.role === 'teacher' || user?.role === 'admin') && (
+            <a href="/teacher" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+              Go to Teacher Space
+            </a>
+          )}
+          {user?.role === 'student' && (
+            <a href="/student" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+              Go to My Grades
+            </a>
+          )}
+          <button onClick={signOut} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Sign Out</button>
+        </div>
       </div>
     </div>
   )
