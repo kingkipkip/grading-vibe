@@ -23,41 +23,26 @@ export default function ActivationPage() {
         setStatus({ type: '', message: '' })
 
         try {
-            // 1. Check if student exists in directory (public_students table or via RPC)
-            // Note: In real app, we should use a Postgres Function (RPC) to do this securely
-            // For now, we assume a direct query allowed by RLS for 'guest' to find specific student
-
-            const { data: student, error: searchError } = await supabase
-                .from('students')
-                .select('*')
-                .eq('student_id', studentId)
-                .eq('national_id', nationalId)
-                .single()
-
-            if (searchError || !student) {
-                throw new Error("Student not found or incorrect National ID.")
-            }
-
-            if (student.user_id) {
-                throw new Error("This student account is already activated.")
-            }
-
-            // 2. Link User to Student
-            const { error: updateError } = await supabase
-                .from('students')
-                .update({ user_id: user.id })
-                .eq('id', student.id)
-
-            if (updateError) throw updateError
-
-            // 3. Update User Role (Example - likely needs a trigger or admin function in real prod)
-            const { error: roleError } = await supabase.auth.updateUser({
-                data: { role: 'student' }
+            // Use the Postgres function to bypass RLS and securely activate the student
+            const { data, error } = await supabase.rpc('activate_student_account', {
+                p_student_id: studentId,
+                p_national_id: nationalId
             })
+
+            if (error) throw error
+
+            if (!data.success) {
+                throw new Error(data.message || "Activation failed.")
+            }
+
+            // Refresh the session so the new role ('student') takes effect immediately
+            await supabase.auth.refreshSession()
 
             // For now, prompt success
             setStatus({ type: 'success', message: 'Account activated successfully! Redirecting...' })
-            setTimeout(() => navigate('/dashboard'), 2000)
+            setTimeout(() => {
+                window.location.href = '/dashboard' // Force hard reload to reset all states
+            }, 2000)
 
         } catch (err) {
             setStatus({ type: 'error', message: err.message })
