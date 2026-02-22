@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -7,13 +7,21 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Loader2 } from 'lucide-react'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function LoginPage() {
+    const { user } = useAuth()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (user) {
+            navigate('/dashboard', { replace: true })
+        }
+    }, [user, navigate])
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -28,11 +36,10 @@ export default function LoginPage() {
 
             if (error) throw error
 
-            // Check role/activation status logic here later (Phase 2)
-            navigate('/dashboard')
+            // Wait for AuthContext to update the user state naturally.
+            // The useEffect will handle redirecting to /dashboard.
         } catch (err) {
             setError(err.message)
-        } finally {
             setLoading(false)
         }
     }
