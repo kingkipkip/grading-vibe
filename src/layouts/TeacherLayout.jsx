@@ -23,13 +23,13 @@ export default function TeacherLayout() {
                     <Link to="/teacher">
                         <Button variant="ghost" className="w-full justify-center md:justify-start h-12">
                             <LayoutDashboard className="md:mr-2 h-5 w-5" />
-                            <span className="hidden md:inline">Classes</span>
+                            <span className="hidden md:inline">ชั้นเรียน</span>
                         </Button>
                     </Link>
                     <Link to="/teacher/profile">
                         <Button variant="ghost" className="w-full justify-center md:justify-start h-12">
                             <User className="md:mr-2 h-5 w-5" />
-                            <span className="hidden md:inline">Profile</span>
+                            <span className="hidden md:inline">โปรไฟล์</span>
                         </Button>
                     </Link>
                 </nav>
@@ -37,7 +37,7 @@ export default function TeacherLayout() {
                 <div className="p-4">
                     <Button variant="ghost" className="w-full justify-center md:justify-start text-red-500 hover:text-red-700 hover:bg-red-50" onClick={signOut}>
                         <LogOut className="md:mr-2 h-5 w-5" />
-                        <span className="hidden md:inline">Sign Out</span>
+                        <span className="hidden md:inline">ออกจากระบบ</span>
                     </Button>
                 </div>
             </aside>

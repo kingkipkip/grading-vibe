@@ -18,36 +18,36 @@ export default function AdminLayout() {
             {/* Sidebar */}
             <aside className="w-64 bg-white shadow-md hidden md:block">
                 <div className="p-6">
-                    <h2 className="text-2xl font-bold text-primary">Admin Panel</h2>
+                    <h2 className="text-2xl font-bold text-primary">ระบบแอดมิน</h2>
                 </div>
                 <nav className="px-4 space-y-2">
                     <Link to="/admin">
                         <Button variant="ghost" className="w-full justify-start">
                             <LayoutDashboard className="mr-2 h-4 w-4" />
-                            Dashboard
+                            แดชบอร์ด
                         </Button>
                     </Link>
                     <Link to="/admin/students">
                         <Button variant="ghost" className="w-full justify-start">
                             <Users className="mr-2 h-4 w-4" />
-                            Students
+                            ข้อมูลนักเรียน
                         </Button>
                     </Link>
                     <Link to="/admin/terms">
                         <Button variant="ghost" className="w-full justify-start">
                             <GraduationCap className="mr-2 h-4 w-4" />
-                            Terms & Years
+                            ปีการศึกษา & เทอม
                         </Button>
                     </Link>
                     <Link to="/admin/users">
                         <Button variant="ghost" className="w-full justify-start">
                             <ShieldCheck className="mr-2 h-4 w-4" />
-                            Teachers & Roles
+                            สิทธิ์การใช้งานของครู
                         </Button>
                     </Link>
                     <Button variant="ghost" className="w-full justify-start text-red-500 hover:text-red-700 hover:bg-red-50 mt-8" onClick={signOut}>
                         <LogOut className="mr-2 h-4 w-4" />
-                        Sign Out
+                        ออกจากระบบ
                     </Button>
                 </nav>
             </aside>

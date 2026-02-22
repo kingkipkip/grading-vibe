@@ -14,7 +14,7 @@ export default function StudentLayout() {
             <header className="bg-white shadow sticky top-0 z-10 px-4 h-16 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <BookOpen className="h-6 w-6 text-primary" />
-                    <span className="font-bold text-lg">My Grades</span>
+                    <span className="font-bold text-lg">ผลการเรียนของฉัน</span>
                 </div>
                 <Button variant="ghost" size="sm" onClick={signOut}>
                     <LogOut className="h-4 w-4" />
@@ -31,13 +31,13 @@ export default function StudentLayout() {
                 <Link to="/student">
                     <Button variant="ghost" className="flex flex-col gap-1 h-auto py-2">
                         <BookOpen className="h-5 w-5" />
-                        <span className="text-[10px]">Classes</span>
+                        <span className="text-[10px]">ชั้นเรียน</span>
                     </Button>
                 </Link>
                 <Link to="/student/profile">
                     <Button variant="ghost" className="flex flex-col gap-1 h-auto py-2">
                         <User className="h-5 w-5" />
-                        <span className="text-[10px]">Profile</span>
+                        <span className="text-[10px]">โปรไฟล์</span>
                     </Button>
                 </Link>
             </nav>
