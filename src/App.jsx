@@ -1,10 +1,13 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from '@/contexts/AuthContext'
 import { Toaster } from 'sonner'
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useState, useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
+import { Loader2, UserCircle2 } from 'lucide-react'
 import ErrorBoundary from '@/components/ErrorBoundary'
+import { supabase } from '@/lib/supabase'
+
+// ... existing imports ...
 
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
 const RegisterPage = lazy(() => import('@/pages/RegisterPage'))
@@ -40,10 +43,54 @@ const queryClient = new QueryClient({
 
 function Dashboard() {
   const { user, signOut } = useAuth()
+  const [studentInfo, setStudentInfo] = useState(null)
+
+  useEffect(() => {
+    if (user?.role === 'student') {
+      const fetchStudentInfo = async () => {
+        const { data } = await supabase
+          .from('students')
+          .select('*')
+          .eq('user_id', user.id)
+          .single()
+        if (data) setStudentInfo(data)
+      }
+      fetchStudentInfo()
+    }
+  }, [user])
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">ยินดีต้อนรับ, {user?.email}</h1>
-      <p className="mb-4">สถานะการใช้งาน: <span className="font-semibold uppercase">{user?.role || 'Guest'}</span></p>
+    <div className="p-8 max-w-4xl mx-auto">
+      <div className="flex items-center gap-3 mb-4">
+        <UserCircle2 className="h-10 w-10 text-primary" />
+        <div>
+          <h1 className="text-2xl font-bold">ยินดีต้อนรับ, {studentInfo ? `${studentInfo.first_name} ${studentInfo.last_name}` : user?.email}</h1>
+          <p className="text-muted-foreground">สถานะการใช้งาน: <span className="font-semibold uppercase text-primary">{user?.role || 'Guest'}</span></p>
+        </div>
+      </div>
+
+      {studentInfo && (
+        <div className="bg-white border rounded-lg shadow-sm p-6 mb-8 mt-6">
+          <h3 className="text-lg font-semibold border-b pb-3 mb-4 text-gray-800">ข้อมูลส่วนตัวนักเรียน</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p className="text-sm text-gray-500 mb-1">รหัสนักเรียน</p>
+              <p className="font-medium text-lg">{studentInfo.student_id}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 mb-1">เลขประจำตัวประชน</p>
+              <p className="font-medium">{studentInfo.national_id}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 mb-1">ห้องเรียน</p>
+              <p className="font-medium">{studentInfo.current_room || '-'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 mb-1">เลขที่</p>
+              <p className="font-medium">{studentInfo.student_number || '-'}</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-col gap-4">
         {user?.role === 'guest' && (
