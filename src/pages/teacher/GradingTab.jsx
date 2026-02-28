@@ -307,16 +307,16 @@ export default function GradingTab({ classId, classData }) {
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
                 ) : (
-                    <Table>
+                    <table className="w-full caption-bottom text-sm">
                         <TableHeader className="shadow-sm z-30">
                             <TableRow>
-                                <TableHead className="w-[80px] cursor-pointer hover:bg-muted/50 sticky top-0 left-0 z-50 bg-card" onClick={() => handleSort('student_number')}>
+                                <TableHead className="w-[80px] min-w-[80px] max-w-[80px] px-2 cursor-pointer hover:bg-muted/50 sticky top-0 left-0 z-50 bg-card" onClick={() => handleSort('student_number')}>
                                     No. <SortIcon columnKey="student_number" />
                                 </TableHead>
-                                <TableHead className="w-[100px] cursor-pointer hover:bg-muted/50 sticky top-0 left-[80px] z-50 bg-card" onClick={() => handleSort('student_id')}>
+                                <TableHead className="w-[100px] min-w-[100px] max-w-[100px] px-2 cursor-pointer hover:bg-muted/50 sticky top-0 left-[80px] z-50 bg-card" onClick={() => handleSort('student_id')}>
                                     ID <SortIcon columnKey="student_id" />
                                 </TableHead>
-                                <TableHead className="w-[200px] cursor-pointer hover:bg-muted/50 sticky top-0 left-[180px] z-50 bg-card border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" onClick={() => handleSort('first_name')}>
+                                <TableHead className="w-[200px] min-w-[200px] max-w-[200px] px-2 cursor-pointer hover:bg-muted/50 sticky top-0 left-[180px] z-50 bg-card border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" onClick={() => handleSort('first_name')}>
                                     Name <SortIcon columnKey="first_name" />
                                 </TableHead>
                                 {assignments.map(a => {
@@ -352,9 +352,9 @@ export default function GradingTab({ classId, classData }) {
                                 const totalScore = assignments.reduce((sum, assign) => sum + getEffectiveScore(grades[`${student.id}_${assign.id}`], assign), 0);
                                 return (
                                     <TableRow key={student.id}>
-                                        <TableCell className="font-bold text-center sticky left-0 z-40 bg-card">{student.student_number || '-'}</TableCell>
-                                        <TableCell className="font-mono sticky left-[80px] z-40 bg-card">{student.student_id}</TableCell>
-                                        <TableCell className="sticky left-[180px] z-40 bg-card border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]" title={`${student.first_name} ${student.last_name}`}>{student.first_name} {student.last_name}</TableCell>
+                                        <TableCell className="w-[80px] min-w-[80px] max-w-[80px] px-2 font-bold text-center sticky left-0 z-40 bg-card">{student.student_number || '-'}</TableCell>
+                                        <TableCell className="w-[100px] min-w-[100px] max-w-[100px] px-2 font-mono sticky left-[80px] z-40 bg-card">{student.student_id}</TableCell>
+                                        <TableCell className="w-[200px] min-w-[200px] max-w-[200px] px-2 sticky left-[180px] z-40 bg-card border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap overflow-hidden text-ellipsis" title={`${student.first_name} ${student.last_name}`}>{student.first_name} {student.last_name}</TableCell>
                                         {assignments.map(a => {
                                             const key = `${student.id}_${a.id}`
                                             const grade = grades[key]
@@ -428,7 +428,7 @@ export default function GradingTab({ classId, classData }) {
                                 </TableRow>
                             )}
                         </TableBody>
-                    </Table>
+                    </table>
                 )}
             </div>
         </div>
