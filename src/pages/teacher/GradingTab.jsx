@@ -308,21 +308,21 @@ export default function GradingTab({ classId, classData }) {
                     </div>
                 ) : (
                     <Table>
-                        <TableHeader className="sticky top-0 bg-card z-30 shadow-sm">
+                        <TableHeader className="shadow-sm z-30">
                             <TableRow>
-                                <TableHead className="w-[80px] cursor-pointer hover:bg-muted/50 sticky left-0 z-40 bg-card" onClick={() => handleSort('student_number')}>
+                                <TableHead className="w-[80px] cursor-pointer hover:bg-muted/50 sticky top-0 left-0 z-50 bg-card" onClick={() => handleSort('student_number')}>
                                     No. <SortIcon columnKey="student_number" />
                                 </TableHead>
-                                <TableHead className="w-[100px] cursor-pointer hover:bg-muted/50 sticky left-[80px] z-40 bg-card" onClick={() => handleSort('student_id')}>
+                                <TableHead className="w-[100px] cursor-pointer hover:bg-muted/50 sticky top-0 left-[80px] z-50 bg-card" onClick={() => handleSort('student_id')}>
                                     ID <SortIcon columnKey="student_id" />
                                 </TableHead>
-                                <TableHead className="w-[200px] cursor-pointer hover:bg-muted/50 sticky left-[180px] z-40 bg-card border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" onClick={() => handleSort('first_name')}>
+                                <TableHead className="w-[200px] cursor-pointer hover:bg-muted/50 sticky top-0 left-[180px] z-50 bg-card border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" onClick={() => handleSort('first_name')}>
                                     Name <SortIcon columnKey="first_name" />
                                 </TableHead>
                                 {assignments.map(a => {
                                     const maxScore = (a.type === 'regular' || !a.type) ? dynamicRegularMax : a.max_score
                                     return (
-                                        <TableHead key={a.id} className="min-w-[120px] text-center cursor-pointer hover:bg-muted/50" onClick={() => handleSort(`assign_${a.id}`)}>
+                                        <TableHead key={a.id} className="min-w-[120px] text-center cursor-pointer hover:bg-muted/50 sticky top-0 z-30 bg-card" onClick={() => handleSort(`assign_${a.id}`)}>
                                             <div className="font-bold inline-flex items-center text-xs">
                                                 <span className={a.type === 'exam' ? 'text-purple-600' : a.type === 'special' ? 'text-orange-600' : 'text-blue-600'}>
                                                     [{a.type?.charAt(0).toUpperCase()}]
@@ -333,10 +333,10 @@ export default function GradingTab({ classId, classData }) {
                                         </TableHead>
                                     )
                                 })}
-                                <TableHead className="text-right cursor-pointer hover:bg-muted/50" onClick={() => handleSort('total')}>
+                                <TableHead className="text-right cursor-pointer hover:bg-muted/50 sticky top-0 z-30 bg-card" onClick={() => handleSort('total')}>
                                     Total <SortIcon columnKey="total" />
                                 </TableHead>
-                                <TableHead className="w-[80px] text-center border-l bg-primary/5">
+                                <TableHead className="w-[80px] text-center border-l bg-primary/5 sticky top-0 z-30">
                                     Grade
                                 </TableHead>
                             </TableRow>
@@ -352,9 +352,9 @@ export default function GradingTab({ classId, classData }) {
                                 const totalScore = assignments.reduce((sum, assign) => sum + getEffectiveScore(grades[`${student.id}_${assign.id}`], assign), 0);
                                 return (
                                     <TableRow key={student.id}>
-                                        <TableCell className="font-bold text-center sticky left-0 z-20 bg-card">{student.student_number || '-'}</TableCell>
-                                        <TableCell className="font-mono sticky left-[80px] z-20 bg-card">{student.student_id}</TableCell>
-                                        <TableCell className="sticky left-[180px] z-20 bg-card border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">{student.first_name} {student.last_name}</TableCell>
+                                        <TableCell className="font-bold text-center sticky left-0 z-40 bg-card">{student.student_number || '-'}</TableCell>
+                                        <TableCell className="font-mono sticky left-[80px] z-40 bg-card">{student.student_id}</TableCell>
+                                        <TableCell className="sticky left-[180px] z-40 bg-card border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]" title={`${student.first_name} ${student.last_name}`}>{student.first_name} {student.last_name}</TableCell>
                                         {assignments.map(a => {
                                             const key = `${student.id}_${a.id}`
                                             const grade = grades[key]
