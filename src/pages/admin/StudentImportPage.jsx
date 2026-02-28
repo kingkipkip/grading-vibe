@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Papa from 'papaparse'
-import { AddStudentForm } from '@/components/AddStudentForm'
+import { StudentForm } from '@/components/StudentForm'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -25,6 +25,7 @@ export default function StudentImportPage() {
     const [status, setStatus] = useState(null) // { type: 'success'|'error', message: '' }
     const [students, setStudents] = useState([])
     const [searchQuery, setSearchQuery] = useState('')
+    const [editingStudent, setEditingStudent] = useState(null)
 
     useEffect(() => {
         fetchStudents()
@@ -148,10 +149,32 @@ export default function StudentImportPage() {
                                 Enter student details manually here.
                             </DialogDescription>
                         </DialogHeader>
-                        <AddStudentForm onSuccess={() => {
+                        <StudentForm onSuccess={() => {
                             setStatus({ type: 'success', message: 'Student added successfully' })
                             fetchStudents()
                         }} />
+                    </DialogContent>
+                </Dialog>
+
+                {/* Edit Student Dialog */}
+                <Dialog open={!!editingStudent} onOpenChange={(open) => !open && setEditingStudent(null)}>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle>Edit Student</DialogTitle>
+                            <DialogDescription>
+                                Update the student details below.
+                            </DialogDescription>
+                        </DialogHeader>
+                        {editingStudent && (
+                            <StudentForm
+                                initialData={editingStudent}
+                                onSuccess={() => {
+                                    toast.success('Student updated successfully')
+                                    setEditingStudent(null)
+                                    fetchStudents()
+                                }}
+                            />
+                        )}
                     </DialogContent>
                 </Dialog>
             </div>
@@ -269,6 +292,9 @@ export default function StudentImportPage() {
                                         <TableCell>{student.current_room}</TableCell>
                                         <TableCell className="text-muted-foreground text-sm">{student.national_id}</TableCell>
                                         <TableCell className="text-right">
+                                            <Button variant="ghost" size="sm" className="text-blue-500 hover:text-blue-700 hover:bg-blue-50 mr-2" onClick={() => setEditingStudent(student)}>
+                                                Edit
+                                            </Button>
                                             <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-700 hover:bg-red-50" onClick={() => handleDelete(student.id)}>
                                                 Delete
                                             </Button>
