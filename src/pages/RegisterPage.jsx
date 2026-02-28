@@ -37,7 +37,7 @@ export default function RegisterPage() {
                         full_name: fullName,
                         role: 'guest' // Default role
                     },
-                    emailRedirectTo: window.location.origin
+                    emailRedirectTo: `${window.location.origin}/login`
                 }
             })
 
