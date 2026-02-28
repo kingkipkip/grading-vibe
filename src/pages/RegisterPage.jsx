@@ -21,7 +21,7 @@ export default function RegisterPage() {
         e.preventDefault()
 
         if (password !== confirmPassword) {
-            setError("Passwords don't match")
+            setError("รหัสผ่านไม่ตรงกัน")
             return
         }
 
@@ -57,9 +57,9 @@ export default function RegisterPage() {
         <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
-                    <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
+                    <CardTitle className="text-2xl font-bold text-center">สร้างบัญชีใหม่</CardTitle>
                     <CardDescription className="text-center">
-                        Enter your email below to create your account
+                        กรอกข้อมูลด้านล่างเพื่อทำการลงทะเบียน
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -70,7 +70,7 @@ export default function RegisterPage() {
                             </Alert>
                         )}
                         <div className="space-y-2">
-                            <Label htmlFor="fullName">Full Name</Label>
+                            <Label htmlFor="fullName">ชื่อ - นามสกุล</Label>
                             <Input
                                 id="fullName"
                                 placeholder="John Doe"
@@ -80,7 +80,7 @@ export default function RegisterPage() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">อีเมล</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -91,7 +91,7 @@ export default function RegisterPage() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password">รหัสผ่าน</Label>
                             <Input
                                 id="password"
                                 type="password"
@@ -101,7 +101,7 @@ export default function RegisterPage() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="confirmPassword">Confirm Password</Label>
+                            <Label htmlFor="confirmPassword">ยืนยันรหัสผ่าน</Label>
                             <Input
                                 id="confirmPassword"
                                 type="password"
@@ -111,15 +111,15 @@ export default function RegisterPage() {
                             />
                         </div>
                         <Button type="submit" className="w-full" disabled={loading}>
-                            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Create account'}
+                            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'สมัครสมาชิก'}
                         </Button>
                     </form>
                 </CardContent>
                 <CardFooter className="flex justify-center">
                     <p className="text-sm text-muted-foreground">
-                        Already have an account?{' '}
+                        มีบัญชีผู้ใช้อยู่แล้ว?{' '}
                         <Link to="/login" className="font-medium text-primary hover:underline">
-                            Sign in
+                            เข้าสู่ระบบ
                         </Link>
                     </p>
                 </CardFooter>

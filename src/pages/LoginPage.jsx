@@ -50,7 +50,7 @@ export default function LoginPage() {
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl font-bold text-center">Grading Vibe</CardTitle>
                     <CardDescription className="text-center">
-                        Sign in to your account
+                        เข้าสู่ระบบเพื่อใช้งาน
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -61,7 +61,7 @@ export default function LoginPage() {
                             </Alert>
                         )}
                         <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">อีเมล</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -73,12 +73,12 @@ export default function LoginPage() {
                         </div>
                         <div className="space-y-2">
                             <div className="flex items-center justify-between">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="password">รหัสผ่าน</Label>
                                 <Link
                                     to="/forgot-password"
                                     className="text-sm font-medium text-primary hover:underline"
                                 >
-                                    Forgot password?
+                                    ลืมรหัสผ่าน?
                                 </Link>
                             </div>
                             <Input
@@ -90,15 +90,15 @@ export default function LoginPage() {
                             />
                         </div>
                         <Button type="submit" className="w-full" disabled={loading}>
-                            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Sign In'}
+                            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'เข้าสู่ระบบ'}
                         </Button>
                     </form>
                 </CardContent>
                 <CardFooter className="flex justify-center">
                     <p className="text-sm text-muted-foreground">
-                        Don't have an account?{' '}
+                        ยังไม่มีบัญชีใช่หรือไม่?{' '}
                         <Link to="/register" className="font-medium text-primary hover:underline">
-                            Sign up
+                            สมัครสมาชิก
                         </Link>
                     </p>
                 </CardFooter>
