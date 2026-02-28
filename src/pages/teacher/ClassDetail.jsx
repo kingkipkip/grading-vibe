@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Loader2, Settings } from 'lucide-react'
+import { ArrowLeft, Loader2, Settings, RefreshCw } from 'lucide-react'
 import AssignmentsTab from './AssignmentsTab'
 import GradingTab from './GradingTab'
 import ClassSettingsTab from './ClassSettingsTab'
@@ -29,6 +29,25 @@ export default function ClassDetail() {
         setLoading(false)
     }
 
+    const handleSyncRoster = async () => {
+        if (!classData || !classData.room) return;
+        setLoading(true);
+        const { error } = await supabase.rpc('enroll_students_by_room', {
+            p_class_id: classId,
+            p_room: classData.room
+        });
+
+        if (error) {
+            console.error(error);
+            alert("Error syncing students: " + error.message);
+        } else {
+            // Need to reload window to refresh the GradingTab cleanly or we could just trigger a refetch
+            // but for simplicity, reloading the page ensures all states are fresh
+            window.location.reload();
+        }
+        setLoading(false);
+    }
+
     if (loading) return <div className="p-8 flex items-center gap-2"><Loader2 className="animate-spin h-5 w-5" /> Loading class data...</div>
     if (!classData) return <div className="p-8">Class not found</div>
 
@@ -40,9 +59,16 @@ export default function ClassDetail() {
                         <ArrowLeft className="h-4 w-4" />
                     </Button>
                 </Link>
-                <div>
-                    <h1 className="text-2xl font-bold">{classData.subject_code} - {classData.subject_name}</h1>
-                    <p className="text-muted-foreground">Room {classData.room} | สัดส่วนคะแนน: การเก็บ {classData.total_assignment_score} / สอบ {classData.total_exam_score}</p>
+                <div className="flex-1 flex justify-between items-start">
+                    <div>
+                        <h1 className="text-2xl font-bold">{classData.subject_code} - {classData.subject_name}</h1>
+                        <p className="text-muted-foreground">Room {classData.room} | สัดส่วนคะแนน: การเก็บ {classData.total_assignment_score} / สอบ {classData.total_exam_score}</p>
+                    </div>
+
+                    <Button variant="outline" size="sm" onClick={handleSyncRoster} disabled={loading} className="print:hidden">
+                        {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
+                        อัปเดตรายชื่อนักเรียนใหม่
+                    </Button>
                 </div>
             </div>
 
